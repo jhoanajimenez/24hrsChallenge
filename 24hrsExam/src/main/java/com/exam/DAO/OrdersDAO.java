@@ -1,10 +1,6 @@
 package com.exam.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,14 +10,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.Models.OrderDetails;
@@ -32,7 +25,6 @@ public class OrdersDAO{
 	
 	@Autowired
 	JdbcTemplate jdbc;
-	
 	
 	
 	public List<Orders> getOrders() throws SQLException{
@@ -109,7 +101,7 @@ public class OrdersDAO{
         Map<String, Object> params = new HashMap<>();
         params.put("date", LocalDate.now());
         params.put("time", LocalTime.now());
-        int rowsAffected = namedParameterJdbcTemplate.update(order_query, new MapSqlParameterSource(params), generatedKeyHolder);
+        namedParameterJdbcTemplate.update(order_query, new MapSqlParameterSource(params), generatedKeyHolder);
         
         int order_id = generatedKeyHolder.getKey().intValue();
         

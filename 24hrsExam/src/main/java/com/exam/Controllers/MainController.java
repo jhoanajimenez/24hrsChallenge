@@ -17,25 +17,4 @@ public class MainController {
 		return "TEST SUCCESS!";
 	}
 	
-	
-	
-	//order all details
-	//show all pizza category
-	//get all pizza by category
-	//all pizza names with available sizes
-	//get pizza by name: show ingr, type , show price is each size 
-	
-	//filter pizza by size | category
-
-	
-	//POST order
-	
-	//aditional
-	//add login
-	//add status to orders
-	//get order detail by user 
-	
-	
-	
-	
 }

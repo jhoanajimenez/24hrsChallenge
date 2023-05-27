@@ -21,8 +21,7 @@ public class Orders {
 	private String date;
 	private String time;
 
-	
-	//getters and setter
+
 	
 	public int getOrder_id() {
 		return order_id;

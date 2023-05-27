@@ -107,17 +107,5 @@ public class OrdersController {
 		return hmap;
 	}
 	
-	
-
-	
-
-	//POST order
-	
-	//aditional
-	//add login
-	//add status to orders
-	//get order detail by user 
-	
-	
 
 }
