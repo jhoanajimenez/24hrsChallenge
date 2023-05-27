@@ -1,5 +1,7 @@
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -9,39 +11,38 @@ public class dbConnection {
 	static String host = "jdbc:mysql://localhost:3306/";
 	static String db = "pizza_orders";
 	static Statement statement;
+	static Connection connect;
 	
 	public static void databaseConnect() {
-		Connection connect = null;
+//		Connection connect = null;
 		try {
 			//Establish connection
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(host, user, pass);
-			statement = connect.createStatement();
-			
-			
-			//Create new database
-			String sql = "CREATE DATABASE IF NOT EXISTS PIZZA_ORDERS";
-			if(statement.executeUpdate(sql) == 1) {
-				System.out.println("Database created successfully...");   
-				
-			} else {
-				System.out.println("Database exists...");   
-			}
-			
-			try {
-				//connect to created db
-				connect = DriverManager.getConnection(host+db, user, pass);
-				System.out.println("Connected to pizza_orders database");
-			} catch (Exception e) {
-				System.out.println("Cannot connect to pizza_orders database");
-			}
-			
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	public static void createDatabase() {
+		try {
+			statement = connect.createStatement();
+			
+			//Create new database
+			String sql = "CREATE DATABASE IF NOT EXISTS PIZZA_ORDERS";
+			if(statement.executeUpdate(sql) == 1) {
+				System.out.println("PIZZA_ORDERS Database created successfully...");   
+				
+			} else {
+				System.out.println("PIZZA_ORDERS Database exists...");   
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Cannot connect to pizza_orders database");
 		}
 	}
 	
@@ -100,17 +101,18 @@ public class dbConnection {
 	}
 	
 	public static void csvToDB(String csv, String tbl) {
-		csv = "orders.csv";
-		tbl = "orders";
+		String load_sql = "LOAD DATA LOCAL INFILE ? IGNORE INTO TABLE `pizza_orders`." + tbl +
+				" FIELDS TERMINATED BY ','" +
+				" ENCLOSED BY '\"'" +
+				" LINES TERMINATED BY '\\r\\n' " +
+				" IGNORE 1 LINES " ;
+		System.out.println(load_sql);
 		
-		String load_sql = "LOAD DATA LOCAL INFILE '" + csv + "' INTO TABLE " + tbl +
-				"FIELDS TERMINATED BY ',' " +
-				"ENCLOSED BY '\"' " +
-				"LINES TERMINATED BY '\r\n' " +
-				"IGNORE 1 LINES " ;
 		
 		try {
-			statement.executeUpdate(load_sql);
+			PreparedStatement ps = connect.prepareStatement(load_sql);
+			ps.setString(1, csv);
+			ps.executeUpdate();
 		} catch (Exception ex) {
 			System.out.println("Failed imporing " + csv);
 			ex.printStackTrace();

@@ -4,17 +4,20 @@ import java.net.URISyntaxException;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("HI");
-		
-		//Connect to DB and create new database
+	
+		//Connect to DB
 		dbConnection.databaseConnect();
+		
+		//create new database if not exist
+		dbConnection.createDatabase();
 		
 		//create tables
 		dbConnection.createTables();
 		
-		//check and load csv
+		//check files and load csv
 		loadCSV();
+		
+		System.out.println("IMPORT COMPLETE");
 	}
 	
 	public static void loadCSV() {
@@ -24,12 +27,12 @@ public class Main {
 			String path = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
 			for(String t : tbl) {
 				File f = new File(path + "\\csv\\" + t);
-				System.out.println(f);
+				
 				if(!f.exists() || f.isDirectory()) { 
-				    System.out.println(t + " file does not exist!");
+				    System.out.println(f + " file does not exist!");
 				} else {
 					//load csv to database
-					dbConnection.csvToDB(t, t.replace(".csv", ""));
+					dbConnection.csvToDB(f.toString(), t.replace(".csv", ""));
 				}
 			}
 			
