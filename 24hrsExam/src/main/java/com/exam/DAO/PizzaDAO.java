@@ -30,7 +30,6 @@ public class PizzaDAO {
 		int counter = 0;
 		while(rs.next()) {
 			if(counter == 0) {
-				hmap.put("pizza_id", rs.getString("pizza_id"));
 				hmap.put("pizza_type", rs.getString("pizza_type"));
 				hmap.put("name", rs.getString("name"));
 				hmap.put("category", rs.getString("category"));
@@ -40,6 +39,7 @@ public class PizzaDAO {
 			}
 			
 			Pizzas pizza = new Pizzas();
+			pizza.setPizza_id(rs.getString("pizza_id"));
 			pizza.setSize(rs.getString("size"));
 			pizza.setPrice(rs.getDouble("price"));
 

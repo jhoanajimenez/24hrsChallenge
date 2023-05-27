@@ -6,19 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Orders {
 
-	@NotBlank
 	@JsonProperty("order_id")
 	private int order_id;
-	
-	@NotBlank
-	@JsonProperty("date")
-	private String date;
-	
-	@NotBlank
-	@JsonProperty("time")
-	private String time;
-	
 
+	@NotBlank
 	@JsonProperty("pizza_id")
 	private String pizza_id;
 	
@@ -27,6 +18,8 @@ public class Orders {
 	private int quantity;
 	
 	private double total_amount;
+	private String date;
+	private String time;
 
 	
 	//getters and setter
