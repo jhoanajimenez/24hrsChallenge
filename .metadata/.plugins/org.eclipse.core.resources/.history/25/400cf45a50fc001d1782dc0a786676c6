@@ -1,0 +1,100 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class dbConnection {
+	static String user = "root";
+	static String pass = "";
+	static String host = "jdbc:mysql://localhost:3306/";
+	static String db = "pizza_orders";
+	static Statement statement;
+	
+	public static void databaseConnect() {
+		Connection connect = null;
+		try {
+			//Establish connection
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(host, user, pass);
+			statement = connect.createStatement();
+			
+			
+			//Create new database
+			String sql = "CREATE DATABASE IF NOT EXISTS PIZZA_ORDERS";
+			if(statement.executeUpdate(sql) == 1) {
+				System.out.println("Database created successfully...");   
+				
+			} else {
+				System.out.println("Database exists...");   
+			}
+			
+			try {
+				//connect to created db
+				connect = DriverManager.getConnection(host+db, user, pass);
+				System.out.println("Connected to pizza_orders database");
+			} catch (Exception e) {
+				System.out.println("Cannot connect to pizza_orders database");
+			}
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void createTables() {
+		String orders_sql = "CREATE TABLE IF NOT EXISTS `test`.`orders`( " +
+				   "`order_id` INT(10) NOT NULL AUTO_INCREMENT , " +
+				   "`date` DATE NOT NULL , " +
+				   "`time` TIME NOT NULL , " +
+				   "PRIMARY KEY (`order_id`))";
+		
+		String pizza_types_sql = "CREATE TABLE IF NOT EXISTS `test`.`pizza_types`( " +
+				   "`pizza_type` VARCHAR(50) NOT NULL , " +
+				   "`name` VARCHAR(120) NOT NULL , " +
+				   "`category` ENUM('Chicken','Classic','Supreme','Veggie') NOT NULL , " +
+				   "`ingredients` LONGTEXT NOT NULL," +
+				   "PRIMARY KEY (`pizza_type`))";
+		
+		String pizzas_sql =  "CREATE TABLE IF NOT EXISTS `test`.`pizzas`( " +
+				   "`pizza_id` VARCHAR(50) NOT NULL , " +
+				   "`pizza_type` VARCHAR(50) NOT NULL , " +
+				   "`size` ENUM('S','M','L','XL','XXL') NOT NULL , " + 
+				   "`price` DECIMAL(20,2) NOT NULL , " +
+				   "PRIMARY KEY (`pizza_id`), " +
+				   "FOREIGN KEY (pizza_type) REFERENCES pizza_types(pizza_type))";
+		
+		String order_details_sql = "CREATE TABLE IF NOT EXISTS `test`.`order_details`( " +
+				   "`order_details_id` INT(10) NOT NULL AUTO_INCREMENT , " +
+				   "`order_id` INT(10) NOT NULL , " +
+				   "`pizza_id` VARCHAR(50) NOT NULL , " + 
+				   "`quantity` INT(10) NOT NULL , " +
+				   "PRIMARY KEY (`order_details_id`), " +
+				   "FOREIGN KEY (order_id) REFERENCES orders(order_id), " +
+				   "FOREIGN KEY (pizza_id) REFERENCES pizzas(pizza_id))";
+		
+		String curr_tbl = "";
+		try {
+			
+			//creation of tables should be in this order
+			curr_tbl = "orders";
+			statement.executeUpdate(orders_sql);
+			
+			curr_tbl = "pizza_types";
+			statement.executeUpdate(orders_sql);
+			
+			curr_tbl = "pizzas";
+			statement.executeUpdate(orders_sql);
+			
+			curr_tbl = "order_details";
+			statement.executeUpdate(orders_sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in creating table: " + curr_tbl);
+		}
+	}
+}

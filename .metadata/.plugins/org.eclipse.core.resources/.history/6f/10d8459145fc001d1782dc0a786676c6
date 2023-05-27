@@ -1,0 +1,17 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("HI");
+		
+		try {
+			Process p = Runtime.getRuntime().exec("cmd /c ping google.com");
+			System.out.println(p.getOutputStream());
+		} catch (Exception e) {
+			System.out.println("Error Occured");
+		}
+		
+	}
+
+}

@@ -1,0 +1,30 @@
+package com.exam.Models;
+
+public class Customer {
+
+	int id;
+	String cust_id;
+	String name;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getCust_id() {
+		return cust_id;
+	}
+	public void setCust_id(String cust_id) {
+		this.cust_id = cust_id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+}

@@ -1,0 +1,10 @@
+package com.exam.Models;
+
+public class Customer {
+
+	int id;
+	String cust_id;
+	String name;
+	
+	
+}

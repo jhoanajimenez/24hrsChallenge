@@ -1,0 +1,6 @@
+
+public class Connection {
+	private String user = "root";
+	private String password = "";
+	private String host = "";
+}
