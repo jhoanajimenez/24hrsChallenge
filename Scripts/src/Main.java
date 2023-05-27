@@ -21,7 +21,7 @@ public class Main {
 	}
 	
 	public static void loadCSV() {
-		String tbl[] = {"orders.csv","pizza_types.csv","pizzas.csv","order_details.csv"};
+		String tbl[] = {"orders.csv","pizza_types.csv","pizzas.csv","order_details.csv","users.csv"};
 		
 		try {
 			String path = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();

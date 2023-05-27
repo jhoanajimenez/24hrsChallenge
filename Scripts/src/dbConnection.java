@@ -77,6 +77,13 @@ public class dbConnection {
 				   "FOREIGN KEY (order_id) REFERENCES orders(order_id), " +
 				   "FOREIGN KEY (pizza_id) REFERENCES pizzas(pizza_id))";
 		
+		String users_sql = "CREATE TABLE IF NOT EXISTS `pizza_orders`.`users`( "
+				+ "`id` int(10) NOT NULL , "
+				+ "`username` varchar(20) NOT NULL , " 
+				+ "`password` varchar(8) NOT NULL , "
+				+ "PRIMARY KEY (`id`))";
+				 
+		
 		String curr_tbl = "";
 		try {
 			System.out.println("Creating tables...");
@@ -92,6 +99,9 @@ public class dbConnection {
 			
 			curr_tbl = "order_details";
 			statement.executeUpdate(order_details_sql);
+			
+			curr_tbl = "users";
+			statement.executeUpdate(users_sql);
 			
 			System.out.println("Creating tables sucess");
 		} catch (SQLException e) {
